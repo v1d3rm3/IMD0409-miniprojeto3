@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -22,8 +23,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.jeanlima.springrestapi.dto.PatchClienteDto;
 import com.jeanlima.springrestapi.model.Cliente;
 import com.jeanlima.springrestapi.repository.ClienteRepository;
+import com.jeanlima.springrestapi.service.impl.ClienteServiceImpl;
 
 @RequestMapping("/api/clientes")
 @RestController //anotação especializadas de controller - todos já anotados com response body!
@@ -31,6 +34,9 @@ public class ClienteController {
 
     @Autowired
     private ClienteRepository clientes;
+
+    @Autowired
+    private ClienteServiceImpl clienteService;
 
     @GetMapping("{id}")
     public Cliente getClienteById( @PathVariable Integer id ){
@@ -73,6 +79,13 @@ public class ClienteController {
                 }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                     "Cliente não encontrado") );
     }
+
+    @PatchMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void atualizarCampos(@PathVariable int id, @RequestBody PatchClienteDto params) {
+        clienteService.atualizarCampos(id, params);
+    }
+
 
     @GetMapping
     public List<Cliente> find( Cliente filtro ){
