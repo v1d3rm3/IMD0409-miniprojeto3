@@ -36,6 +36,10 @@ public class ClienteServiceImpl implements ClienteService {
             cliente.setNome(params.getNome());
         }
 
+
+        System.out.println(cliente.toString());
+        
+
         clienteRepo.save(cliente);
     }
 }

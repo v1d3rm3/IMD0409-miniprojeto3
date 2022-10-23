@@ -12,6 +12,7 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -21,8 +22,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.jeanlima.springrestapi.dto.PatchProdutoDto;
 import com.jeanlima.springrestapi.model.Produto;
 import com.jeanlima.springrestapi.repository.ProdutoRepository;
+import com.jeanlima.springrestapi.service.ProdutoService;
+import com.jeanlima.springrestapi.service.impl.ProdutoServiceImpl;
 
 
 
@@ -32,6 +36,9 @@ public class ProdutoController {
 
     @Autowired
     private ProdutoRepository repository;
+
+    @Autowired
+    private ProdutoServiceImpl produtoService;
 
     @PostMapping
     @ResponseStatus(CREATED)
@@ -64,6 +71,12 @@ public class ProdutoController {
                 }).orElseThrow( () ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "Produto não encontrado."));
+    }
+
+    @PatchMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void atualizarCampos(@PathVariable int id, @RequestBody PatchProdutoDto params) {
+        produtoService.atualizarParcialmente(id, params);
     }
 
     @GetMapping("{id}")
