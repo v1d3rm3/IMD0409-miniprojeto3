@@ -1,7 +1,9 @@
 package com.jeanlima.springrestapi.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -37,7 +39,7 @@ public class Cliente {
      */
     @JsonIgnore
     @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
-    private Set<Pedido> pedidos;
+    private Set<Pedido> pedidos = new HashSet<Pedido>();
 
     
     public Cliente() {
@@ -67,6 +69,10 @@ public class Cliente {
 
     @Override
     public String toString() {
+        // System.out.println();
+        getPedidos().forEach(i -> {
+            System.out.println(i);
+        });
         return "Cliente [id=" + id + ", nome=" + nome + "]";
     }
     public String getCpf() {

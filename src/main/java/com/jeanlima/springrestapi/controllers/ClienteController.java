@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.jeanlima.springrestapi.dto.ClienteDetalhesCompletaDto;
 import com.jeanlima.springrestapi.dto.PatchClienteDto;
 import com.jeanlima.springrestapi.model.Cliente;
 import com.jeanlima.springrestapi.repository.ClienteRepository;
@@ -45,6 +46,12 @@ public class ClienteController {
                 .orElseThrow(() -> //se nao achar lança o erro!
                         new ResponseStatusException(HttpStatus.NOT_FOUND,
                                 "Cliente não encontrado"));
+    }
+
+    @GetMapping("{id}/detalhes")
+    public ClienteDetalhesCompletaDto recuperarClienteMaisDetalhesCompletos(@PathVariable int id) {
+        var cliente =  clienteService.recuperarClienteMaisDetalhesCompletos(id);
+        return ClienteDetalhesCompletaDto.from(cliente);
     }
 
     @PostMapping

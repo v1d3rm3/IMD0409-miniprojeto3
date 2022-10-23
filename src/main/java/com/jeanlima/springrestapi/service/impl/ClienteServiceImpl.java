@@ -42,4 +42,8 @@ public class ClienteServiceImpl implements ClienteService {
 
         clienteRepo.save(cliente);
     }
+
+    public Cliente recuperarClienteMaisDetalhesCompletos(int clienteId) {        
+        return clienteRepo.recuperarClienteMaisDetalhesCompletos(clienteId);
+    }
 }

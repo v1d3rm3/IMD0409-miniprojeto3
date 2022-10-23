@@ -4,8 +4,10 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,7 +25,7 @@ public class Pedido {
     private Integer id;
 
     //Um cliente pode ter muitos pedidos!
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
@@ -35,7 +37,7 @@ public class Pedido {
     private BigDecimal total;
 
 
-    @OneToMany(mappedBy = "pedido")
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
     private List<ItemPedido> itens;
 
     public Integer getId() {
@@ -71,7 +73,7 @@ public class Pedido {
     }
     @Override
     public String toString() {
-        return "Pedido [dataPedido=" + dataPedido + ", id=" + id + ", total=" + total + "]";
+        return "Pedido [dataPedido=" + dataPedido + ", id=" + id + ", total=" + total + ", cliente=" + cliente.getId() + "]";
     }
 
     
