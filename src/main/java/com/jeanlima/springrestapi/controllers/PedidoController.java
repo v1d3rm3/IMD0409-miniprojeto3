@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jeanlima.springrestapi.dto.AdicionarItemEmPedidoDto;
 import com.jeanlima.springrestapi.dto.CriarPedidoDto;
 import com.jeanlima.springrestapi.service.PedidoService;
 
@@ -27,6 +28,11 @@ public class PedidoController {
     @ResponseStatus(CREATED)
     public void criar(@RequestBody CriarPedidoDto params) {
         service.criar(params);
+    }
+
+    @PostMapping("item")
+    public void adicionarItemEmPedido(@RequestBody AdicionarItemEmPedidoDto params) {
+        service.AdicionarItemEmPedido(params);
     }
 
     @DeleteMapping("{id}")
